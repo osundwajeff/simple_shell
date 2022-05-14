@@ -32,7 +32,7 @@ $ echo "qwerty" | ./././hsh
 $
 ```
 ## Authors
-Jeff Osundwa
+Jeff Osundwa,
 Peter Muturi
 
 
