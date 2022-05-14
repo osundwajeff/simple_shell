@@ -52,5 +52,6 @@ int envir(char *line[]);
 int maker(char *line[]);
 char _getchar(void);
 char *stringer(char *line, int i, char *str, char c);
+char *read_line(int *i_eof)
 
 #endif
