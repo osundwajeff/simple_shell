@@ -31,6 +31,14 @@ $ echo "qwerty" | ./././hsh
 ./././hsh: 1: qwerty: not found
 $
 ```
+<<<<<<< HEAD
 #Authors
 Jeff Osundwa
 Peter Muturi
+=======
+## Authors
+Jeff Osundwa,
+Peter Muturi
+
+
+>>>>>>> d4bb08c7208bba31828e45d31bdeedc44f786338
