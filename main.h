@@ -57,5 +57,10 @@ int get_help(data_shell *datash)
 int get_error(data_shell *datash, int eval)
 void get_sigint(int sig)
 int (*get_builtin(char *cmd))(data_shell *)
+char *swap_char(char *input, int bool)
+void add_nodes(sep_list **head_s, line_list **head_l, char *input)
+void go_next(sep_list **list_s, line_list **list_l, data_shell *datash)
+int split_commands(data_shell *datash, char *input)
+char **split_line(char *input)
 
 #endif
