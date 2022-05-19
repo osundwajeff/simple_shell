@@ -56,5 +56,6 @@ char *read_line(int *i_eof)
 int get_help(data_shell *datash)
 int get_error(data_shell *datash, int eval)
 void get_sigint(int sig)
-	
+int (*get_builtin(char *cmd))(data_shell *)
+
 #endif
