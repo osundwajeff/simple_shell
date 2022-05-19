@@ -55,5 +55,6 @@ char *stringer(char *line, int i, char *str, char c);
 char *read_line(int *i_eof)
 int get_help(data_shell *datash)
 int get_error(data_shell *datash, int eval)
-
+void get_sigint(int sig)
+	
 #endif
