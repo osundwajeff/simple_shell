@@ -142,5 +142,7 @@ void cd_previous(data_shell *datash)
 void cd_to_home(data_shell *datash)
 void free_data(data_shell *datash)
 void set_data(data_shell *datash, char **av)
-int main(int ac, char **av)  
+int main(int ac, char **av)
+int exec_line(data_shell *datash) 
+
 #endif
