@@ -66,5 +66,7 @@ void check_env(r_var **h, char *in, data_shell *data)
 int check_vars(r_var **h, char *in, char *st, data_shell *data)
 char *replaced_input(r_var **head, char *input, char *new_input, int nlen)
 char *rep_var(char *input, data_shell *datash)
-	
+char *without_comment(char *in)
+void shell_loop(data_shell *datash)
+
 #endif
