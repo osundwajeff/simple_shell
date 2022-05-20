@@ -68,5 +68,6 @@ char *replaced_input(r_var **head, char *input, char *new_input, int nlen)
 char *rep_var(char *input, data_shell *datash)
 char *without_comment(char *in)
 void shell_loop(data_shell *datash)
+int cd_shell(data_shell *datash)
 
 #endif
