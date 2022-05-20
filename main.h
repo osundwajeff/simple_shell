@@ -53,5 +53,18 @@ int maker(char *line[]);
 char _getchar(void);
 char *stringer(char *line, int i, char *str, char c);
 char *read_line(int *i_eof)
-
+int get_help(data_shell *datash)
+int get_error(data_shell *datash, int eval)
+void get_sigint(int sig)
+int (*get_builtin(char *cmd))(data_shell *)
+char *swap_char(char *input, int bool)
+void add_nodes(sep_list **head_s, line_list **head_l, char *input)
+void go_next(sep_list **list_s, line_list **list_l, data_shell *datash)
+int split_commands(data_shell *datash, char *input)
+char **split_line(char *input)
+void check_env(r_var **h, char *in, data_shell *data)
+int check_vars(r_var **h, char *in, char *st, data_shell *data)
+char *replaced_input(r_var **head, char *input, char *new_input, int nlen)
+char *rep_var(char *input, data_shell *datash)
+	
 #endif
