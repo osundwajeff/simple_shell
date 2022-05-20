@@ -69,5 +69,9 @@ char *rep_var(char *input, data_shell *datash)
 char *without_comment(char *in)
 void shell_loop(data_shell *datash)
 int cd_shell(data_shell *datash)
+void cd_dot(data_shell *datash)
+void cd_to(data_shell *datash)
+void cd_previous(data_shell *datash)
+void cd_to_home(data_shell *datash)
 
 #endif
