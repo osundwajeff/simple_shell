@@ -2,29 +2,96 @@
 #define MAIN_H
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <sys/stat.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <fcntl.h>
+#include <sys/stat.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <signal.h>
+#include <limits.h>
 
+#define BUFSIZE 1024
+#define TOK_BUFSIZE 128
+#define TOK_DELIM "\t\r\n\a"
+
+/*Points to an array of pointers to strings called the "environment"*/
 extern char **environ;
-extern int errno;
 
 /**
- * struct selectfunction - a struct array of functions
- * @command: a pointer to the caharacter of the command string
- * @funcptr: a pointer to a function
+ * struct data - struct that contains all relevant data on runtime
+ * @av: argument vector
+ * @input: command line written by the user
+ * @args: tokens of the command line
+ * @status: last status of the shell
+ * @counter: lines counter
+ * @_environ: environment variable
+ * @pid: process ID of the shell
  */
 
-typedef struct selectfunction
+typedef struct data
 {
-char *command;
-int (*funcptr)(char **line);
-} selecte;
+	char **av;
+	char *input;
+	char **args;
+	int status;
+	int counter;
+	char **_environ;
+	char *pid;
+} data_shell;
+
+/**
+ * struct sep_list_s - single linked list
+ * @separator:;| &
+ * @next: next node
+ * Description: single linked list to store separators
+ */
+
+typedef struct sep_list_s
+{
+	char separator;
+	struct sep_list_s *next;
+} sep_list;
+
+/**
+ * struct line_list_s - single linked list
+ * @line: command line
+ * @next: next node
+ * Description: single linked list to store command lines
+ */
+typedef struct line_list_s
+{
+	char *line;
+	struct line_list_s *next;
+} line_list;
+
+/**
+ * struct r_var_list - single linked list
+ * @len_var: length of the variable
+ * @val: value of the variable
+ * @len_val: length of the value
+ * @next: next node
+ * Description: single linked list to store variables
+ */
+typedef struct r_var_list
+{
+	int len_var;
+	char *val;
+	int len_val;
+	struct r_var_list *next;
+} r_var;
+
+/**
+ * struct builtin_s - Builtin struct for command args.
+ * @name: The name of the command builtin i.e cd, exit, env
+ * @f: data type pointer function
+ */
+typedef struct builtin_s
+{
+	char *name;
+	int (*f)(data_shell *datash);
+} builtin_t;
 
 void sigintHandler(int sig_num __attribute__((unused)));
 void printprompt(int i);
@@ -76,5 +143,4 @@ void cd_to_home(data_shell *datash)
 void free_data(data_shell *datash)
 void set_data(data_shell *datash, char **av)
 int main(int ac, char **av)  
-
 #endif
