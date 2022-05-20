@@ -1,95 +1,73 @@
 #include "main.h"
 
 /**
- * copyarray - a function to copy string array to another string array variable
- * @line: a string array to be copied
- * Return: returns the copied array
+ * free_data - frees data structure
+ *
+ * @datash: data structure
+ * Return: no return
  */
-
-char **copyarray(char **line)
+void free_data(data_shell *datash)
 {
-	char **array;
-	int i = 1;
+	unsigned int i;
 
-	array = malloc(64);
-	if (!array)
-		return (NULL);
-
-	while (line[i] != NULL)
+	for (i = 0; datash->_environ[i]; i++)
 	{
-		array[(i - 1)] = malloc(32);
-		if (!array[(i - 1)])
-			return (NULL);
-
-		strcopy(line[i], array[(i - 1)]);
-		i++;
+		free(datash->_environ[i]);
 	}
 
-	return (array);
+	free(datash->_environ);
+	free(datash->pid);
 }
 
 /**
- * sigintHandler - a function to handle the ctrl-c signal
- * @sig_num: an integer signal indicator
+ * set_data - Initialize data structure
  *
- * Return: void function
+ * @datash: data structure
+ * @av: argument vector
+ * Return: no return
  */
-
-void sigintHandler(int sig_num __attribute__((unused)))
+void set_data(data_shell *datash, char **av)
 {
-	signal(SIGINT, sigintHandler);
-	write(1, "\n", 2);
-	printprompt(0);
-	fflush(stdout);
+	unsigned int i;
+
+	datash->av = av;
+	datash->input = NULL;
+	datash->args = NULL;
+	datash->status = 0;
+	datash->counter = 1;
+
+	for (i = 0; environ[i]; i++)
+		;
+
+	datash->_environ = malloc(sizeof(char *) * (i + 1));
+
+	for (i = 0; environ[i]; i++)
+	{
+		datash->_environ[i] = _strdup(environ[i]);
+	}
+
+	datash->_environ[i] = NULL;
+	datash->pid = aux_itoa(getpid());
 }
 
 /**
- * main - a the main function of the shell
- * @argc: the number of arguments given
- * @argv: an array of given argument strings
+ * main - Entry point
  *
- * Return: returns an integer
+ * @ac: argument count
+ * @av: argument vector
+ *
+ * Return: 0 on success.
  */
-
-int main(int argc __attribute__((unused)), char **argv)
+int main(int ac, char **av)
 {
-	char *line;
+	data_shell datash;
+	(void) ac;
 
-	line = malloc(256);
-	if (!line)
-	{
-		perror("Allocation");
-		exit(1);
-	}
-
-	if (!isatty(STDIN_FILENO))
-	{
-		if (getstr(line) == (-1))
-		{
-			write(1, "\n", 2);
-			exit(1);
-		}
-		if (shellprocessor(strbrk(line, ' '), argv) == -1)
-		{
-			perror("Error");
-		}
-
-		exit(0);
-	}
-
-	do {
-		printprompt(0);
-		if (getstr(line) == (-1))
-		{
-			write(1, "\n", 2);
-			exit(0);
-		}
-
-		if ((shellprocessor(strbrk(line, ' '), argv)) == -1)
-		{
-			perror("Error");
-		}
-	} while (1);
-
-	return (0);
+	signal(SIGINT, get_sigint);
+	set_data(&datash, av);
+	shell_loop(&datash);
+	free_data(&datash);
+	if (datash.status < 0)
+		return (255);
+	return (datash.status);
 }
